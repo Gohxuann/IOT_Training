@@ -1,9 +1,8 @@
 #include <WiFi.h>
-#include <dht.h>
+#include "DHT.h"
 #include <HTTPClient.h>
 #include <WiFiClient.h>
 
-#define D4 2  //DHT11 Sensor connected to D4
 const char* ssid = "myUUM_Guest";
 const char* pass = "";
 int hum = 0, temp = 0;
@@ -12,7 +11,10 @@ int hum = 0, temp = 0;
 unsigned long sendDataPrevMillis = 0;
 int count = 0;
 String serverName = "http://iottraininggoh.threelittlecar.com/";
-dht DHT;
+// DHT sensor setup
+#define DHTPIN 4
+#define DHTTYPE DHT11
+DHT dht(DHTPIN, DHTTYPE);
 
 
 void setup() {
