@@ -29,7 +29,7 @@ void setup() {
   }
   Serial.println("");
   Serial.println("WiFi connected");
-  timeClient.begin();
+
 }
 
 void loop() {
@@ -42,7 +42,7 @@ void loop() {
     if (WiFi.status() == WL_CONNECTED) {
       WiFiClient client;
       HTTPClient http;
-      String httpReqStr = serverName + "dht11.php?id=101temp=" + temp + "&hum=" + hum;
+      String httpReqStr = serverName + "dht11.php?id=101&temp=" + temp + "&hum=" + hum;
       http.begin(client, httpReqStr.c_str());
       int httpResponseCode = http.GET();
       if (httpResponseCode > 0) {
@@ -62,12 +62,17 @@ void loop() {
 
 
 void getDHT() {
-  int chk = DHT.read11(D4);
-  Serial.print("Temperature=");
-  Serial.println(DHT.temperature);
-  hum = DHT.humidity;
-  temp = DHT.temperature;
-  Serial.print("Humidity=");
-  Serial.println(DHT.humidity);
+  float humidity = dht.readHumidity();
+  float temperature = dht.readTemperature();
+
+  Serial.print("Temperature = ");
+  Serial.println(temperature);
+
+  Serial.print("Humidity = ");
+  Serial.println(humidity);
+
+  hum = (int)humidity;
+  temp = (int)temperature;
+
   delay(200);
 }
